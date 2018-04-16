@@ -17,12 +17,13 @@ namespace PIMP.DIRegistration.Core
         string DependencyName { get; }
 
         /// <summary>
-        /// The collection of <see cref="DependencyName"/>s on which this Registrator depends.
+        /// Gets the collection of <see cref="DependencyName"/>s on which this Registrator depends.
+        /// <param name="context">Can be passed to the <see cref="IRegistrator{T}"/> to filter dependancies.</param>
         /// </summary>
-        IEnumerable<string> Dependancies { get; }
+        IEnumerable<string> GetDependancies(string context = null);
 
         /// <summary>
-        /// Will be called when all <see cref="Dependancies"/> have been registered.
+        /// Will be called when all Dependancies obtained from <see cref="GetDependancies(string)"/> have been registered.
         /// </summary>
         /// <param name="container"></param>
         /// <param name="context">Used to discriminate on registration. Mainly for Solutions with multiple entry projects.</param>

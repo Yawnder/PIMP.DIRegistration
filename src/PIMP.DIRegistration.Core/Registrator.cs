@@ -43,10 +43,13 @@ namespace PIMP.DIRegistration.Core
         /// <summary>
         /// The collection of <see cref="DependencyName"/>s on which this Registrator depends.
         /// </summary>
-        public virtual IEnumerable<string> Dependancies => null;
+        public virtual IEnumerable<string> GetDependancies(string context)
+        {
+            return null;
+        }
 
         /// <summary>
-        /// Will be called when all <see cref="Dependancies"/> have been registered.
+        /// Will be called when all Dependancies obtained from <see cref="GetDependancies(string)"/> have been registered.
         /// </summary>
         /// <param name="container"></param>
         /// <param name="context">Used to discriminate on registration. Mainly for Solutions with multiple entry projects.</param>
