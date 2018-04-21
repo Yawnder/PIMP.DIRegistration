@@ -21,7 +21,7 @@ namespace PIMP.DIRegistration.Core
         public override void Register(IUnityContainer container, string context = null)
         {
             container.RegisterTypes(
-                AllClasses.FromAssemblies(Assembly.GetCallingAssembly()),
+                AllClasses.FromAssemblies(Assembly.GetAssembly(this.GetType())),
                 WithMappings.FromMatchingInterface,
                 WithName.Default,
                 (t) => { return new HierarchicalLifetimeManager(); });

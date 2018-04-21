@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="PIMP.DISample.MyConsole" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="SecretPassword" Type="System.String" Scope="User">
+      <Value Profile="(Default)">My Voice Is My Password. Verify Me.</Value>
+    </Setting>
+    <Setting Name="OtherString" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Needed this at Registration Time.</Value>
+    </Setting>
+    <Setting Name="FooConnectionString" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Provider:Whatever;</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

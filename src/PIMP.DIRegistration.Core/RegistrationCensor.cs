@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -35,10 +36,11 @@ namespace PIMP.DIRegistration.Core
         /// Triggers the registration <see cref="IRegistrator{T}.Register(T, string)"/> of any <see cref="IRegistrator{T}"/>.
         /// </summary>
         /// <param name="container">The container in which apply the registrations.</param>
+        /// <param name="assemblyMask">This will load all Assemblies from the root folder that match this mask. Load everything if no mask provided.</param>
         /// <param name="context">A key which registrators might use to decide what to register.</param>
-        public static void RegisterAll(T container, string context = null)
+        public static void RegisterAll(T container, string assemblyMask = null, string context = null)
         {
-            instance.EnqueueAll(container, context);
+            instance.EnqueueAll(container, context, assemblyMask);
             instance.ProcessAll(container, context);
         }
 
@@ -64,21 +66,45 @@ namespace PIMP.DIRegistration.Core
 
         #region Methods: Private
 
-        private void EnqueueAll(T container, string context = null)
+        private void EnqueueAll(T container, string context = null, string assemblyMask = null)
         {
+            this.LoadAssemblies(assemblyMask);
+
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
             foreach (var assembly in assemblies)
-                Register(container, assembly, context);
+                Enqueue(container, assembly, context);
         }
 
-        private void Register(T container, Assembly assembly, string context)
+        //Source: https://stackoverflow.com/questions/1288288/how-to-load-all-assemblies-from-within-your-bin-directory
+        private void LoadAssemblies(string assemblyMask = null)
+        {
+            if (assemblyMask == null)
+                assemblyMask = "*";
+
+            List<Assembly> allAssemblies = new List<Assembly>();
+            string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
+            foreach (string dll in Directory.GetFiles(path, assemblyMask))
+            {
+                try
+                {
+                    allAssemblies.Add(Assembly.LoadFile(dll));
+                }
+                catch (FileLoadException)
+                { } // The Assembly has already been loaded.
+                catch (BadImageFormatException)
+                { } // If a BadImageFormatException exception is thrown, the file is not an assembly.
+            }
+        }
+
+        private void Enqueue(T container, Assembly assembly, string context)
         {
             var types = assembly.GetTypes();
             foreach (var type in types)
-                Register(container, type, context);
+                Enqueue(container, type, context);
         }
 
-        private void Register(T container, Type type, string context)
+        private void Enqueue(T container, Type type, string context)
         {
             if (typeof(IRegistrator<T>).IsAssignableFrom(type) && type != typeof(IRegistrator<T>) && !type.IsAbstract)
             {
