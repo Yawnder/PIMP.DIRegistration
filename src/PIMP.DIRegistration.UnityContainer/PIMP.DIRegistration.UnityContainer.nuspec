@@ -10,8 +10,5 @@
 		<description>$description$</description>
 		<copyright>Copyright 2018</copyright>
 		<tags>InversionOfControl DependencyInjection Unity UnityContainer</tags>
-		<dependencies>
-			<dependency id="PIMP.DIRegistration.Core" version="[0.2.0-0.2.1]" />
-		</dependencies>
 	</metadata>
 </package>

@@ -48,5 +48,8 @@
     <Compile Include="RegistrationCensor.cs" />
     <Compile Include="Registrator.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="PIMP.DIRegistration.Core.nuspec" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
